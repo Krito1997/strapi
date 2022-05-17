@@ -27,7 +27,7 @@ import { FolderList } from '../../components/FolderList';
 import SortPicker from '../../components/SortPicker';
 import { useAssets } from '../../hooks/useAssets';
 import { useFolders } from '../../hooks/useFolders';
-import { getTrad, getRequestUrl } from '../../utils';
+import { getTrad, getRequestUrl, findRecursiveParentFolderId } from '../../utils';
 import { Filters } from './components/Filters';
 import { PaginationFooter } from '../../components/PaginationFooter';
 import { useMediaLibraryPermissions } from '../../hooks/useMediaLibraryPermissions';
@@ -63,6 +63,12 @@ export const MediaLibrary = () => {
   });
 
   const { data: folderStructure, isLoading: folderStructureIsLoading } = useFolderStructure();
+
+  const parentFolder =
+    !folderStructureIsLoading &&
+    query.folder &&
+    findRecursiveParentFolderId(folderStructure[0], query.folder);
+  console.log(parentFolder);
 
   const [showUploadAssetDialog, setShowUploadAssetDialog] = useState(false);
   const [showEditFolderDialog, setShowEditFolderDialog] = useState(false);
